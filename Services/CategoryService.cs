@@ -43,8 +43,6 @@ public class CategoryService : ICategoryService
         category.isParentCategory = false;
         category.Songs = new List<Song>();
         category.Name = createCategoryRequest.Name;
-        category.CreatedAt = DateTime.UtcNow;
-        category.ModifiedAt = DateTime.UtcNow;
         _context.Categories.Add(category);
         await _context.SaveChangesAsync();
         return category;

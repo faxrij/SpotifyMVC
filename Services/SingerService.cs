@@ -33,8 +33,6 @@ public class SingerService : ISingerService
         singer.Albums = new List<Album>();
         singer.Name = createSingerRequest.Name;
         singer.BirthDate = createSingerRequest.BirthDate;
-        singer.CreatedAt = DateTime.UtcNow;
-        singer.ModifiedAt = DateTime.UtcNow;
         _context.Singers.Add(singer);
         await _context.SaveChangesAsync();
         return singer;

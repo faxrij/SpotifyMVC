@@ -33,8 +33,6 @@ public class AlbumService : IAlbumService
         album.Songs = new List<Song>();
         album.ReleaseYear = createAlbumRequest.ReleaseYear;
         album.Title = createAlbumRequest.Title;
-        album.CreatedAt = DateTime.UtcNow;
-        album.ModifiedAt = DateTime.UtcNow;
         _context.Albums.Add(album);
         await _context.SaveChangesAsync();
         return album;

@@ -11,4 +11,9 @@ public abstract class Auditable
 
     public DateTime CreatedAt { get; set; }
     public DateTime ModifiedAt { get; set; }
+    
+    protected Auditable()
+    {
+        CreatedAt = ModifiedAt = DateTime.UtcNow;
+    }
 }

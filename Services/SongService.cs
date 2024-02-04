@@ -45,8 +45,6 @@ public class SongService : ISongService
         song.Title = createSongRequest.Title;
         song.DurationInSeconds = createSongRequest.DurationInSeconds;
         song.Categories = new List<Category>();
-        song.CreatedAt = DateTime.UtcNow;
-        song.ModifiedAt = DateTime.UtcNow;
         _context.Songs.Add(song);
         await _context.SaveChangesAsync();
         return song;
