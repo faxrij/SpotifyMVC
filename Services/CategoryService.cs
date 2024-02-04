@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using SpotifyMVC.Data;
 using SpotifyMVC.DTOs.Request;
@@ -60,5 +59,27 @@ public class CategoryService : ICategoryService
         _context.Categories.Remove(categoryToRemove);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<Category?> UpdateCategoryAsync(UpdateCategoryRequest updateCategoryRequest, int id)
+    {
+        var categoryToUpdate = await _context.Categories.FindAsync(id);
+        if (categoryToUpdate == null)
+        {
+            throw new InvalidOperationException($"Provided category with ID {id} not found.");
+        }
+
+        var parentCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == updateCategoryRequest.ParentCategoryId);
+
+        if (parentCategory == null)
+        {
+            throw new InvalidOperationException($"Parent category with ID {id} not found.");
+        }
+
+        categoryToUpdate.ParentCategory = parentCategory;
+        categoryToUpdate.Name = updateCategoryRequest.Name;
+        
+        await _context.SaveChangesAsync();
+        return categoryToUpdate;
     }
 }

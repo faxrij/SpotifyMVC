@@ -27,12 +27,6 @@ public class AlbumController : ControllerBase
     public async Task<ActionResult<Album>> GetAlbum(int id)
     {
         var album = await _albumService.GetAlbumByIdAsync(id);
-
-        if (album == null)
-        {
-            return NotFound();
-        }
-
         return Ok(album);
     }
 
@@ -47,12 +41,13 @@ public class AlbumController : ControllerBase
     public async Task<IActionResult> DeleteAlbum(int id)
     {
         var result = await _albumService.RemoveAlbumAsync(id);
+        return Ok(result);
+    }
 
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAlbum(UpdateAlbumRequest updateAlbumRequest, int id)
+    {
+        var album = await _albumService.UpdateAlbumAsync(updateAlbumRequest, id);
+        return Ok(album);
     }
 }

@@ -27,12 +27,6 @@ public class SingerController : ControllerBase
     public async Task<ActionResult<Singer>> GetSinger(int id)
     {
         var singer = await _singerService.GetSingerByIdAsync(id);
-
-        if (singer == null)
-        {
-            return NotFound();
-        }
-
         return Ok(singer);
     }
 
@@ -47,12 +41,13 @@ public class SingerController : ControllerBase
     public async Task<IActionResult> DeleteSinger(int id)
     {
         var result = await _singerService.RemoveSingerAsync(id);
-
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return Ok();
+        return Ok(result);
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateSinger(UpdateSingerRequest updateSingerRequest, int id)
+    {
+        var singer = await _singerService.UpdateSingerAsync(updateSingerRequest, id);
+        return Ok(singer);
     }
 }

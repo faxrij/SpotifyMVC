@@ -27,12 +27,6 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<Category>> GetCategory(int id)
     {
         var category = await _categoryService.GetCategoryByIdAsync(id);
-
-        if (category == null)
-        {
-            return NotFound();
-        }
-
         return Ok(category);
     }
 
@@ -47,12 +41,13 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> DeleteCategory(int id)
     {
         var result = await _categoryService.RemoveCategoryAsync(id);
-
-        if (!result)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+        return Ok(result);
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCategory(UpdateCategoryRequest updateCategoryRequest, int id)
+    {
+        var category = await _categoryService.UpdateCategoryAsync(updateCategoryRequest, id);
+        return Ok(category);
     }
 }

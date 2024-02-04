@@ -51,4 +51,19 @@ public class SingerService : ISingerService
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<Singer?> UpdateSingerAsync(UpdateSingerRequest updateSingerRequest, int id)
+    {
+        var singerToUpdate = await _context.Singers.FindAsync(id);
+        if (singerToUpdate == null)
+        {
+            throw new InvalidOperationException($"Provided category with ID {id} not found.");
+        }
+
+        singerToUpdate.BirthDate = updateSingerRequest.BirthDate;
+        singerToUpdate.Name = updateSingerRequest.Name;
+        
+        await _context.SaveChangesAsync();
+        return singerToUpdate;
+    }
 }

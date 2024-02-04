@@ -63,4 +63,28 @@ public class SongService : ISongService
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<Song?> UpdateSongAsync(UpdateSongRequest updateSongRequest, int id)
+    {
+        var songToUpdate = await _context.Songs.FindAsync(id);
+        if (songToUpdate == null)
+        {
+            throw new InvalidOperationException($"Provided Song with ID {id} not found.");
+        }
+
+        var album = await _context.Albums.FirstOrDefaultAsync(c => c.Id == updateSongRequest.AlbumId);
+
+        if (album == null)
+        {
+            throw new InvalidOperationException($"Album with ID {id} not found.");
+        }
+
+        songToUpdate.DurationInSeconds = updateSongRequest.DurationInSeconds;
+        songToUpdate.Album = album;
+        songToUpdate.Lyrics = updateSongRequest.Lyrics;
+        songToUpdate.Title = updateSongRequest.Title;
+        
+        await _context.SaveChangesAsync();
+        return songToUpdate;
+    }
 }

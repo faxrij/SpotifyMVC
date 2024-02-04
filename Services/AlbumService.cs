@@ -51,4 +51,19 @@ public class AlbumService : IAlbumService
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<Album?> UpdateAlbumAsync(UpdateAlbumRequest updateAlbumRequest, int id)
+    {
+        var albumToUpdate = await _context.Albums.FindAsync(id);
+        if (albumToUpdate == null)
+        {
+            throw new InvalidOperationException($"Album with ID {id} not found.");
+        }
+
+        albumToUpdate.ReleaseYear = updateAlbumRequest.ReleaseYear;
+        albumToUpdate.Title = updateAlbumRequest.Title;
+        
+        await _context.SaveChangesAsync();
+        return albumToUpdate;
+    }
 }

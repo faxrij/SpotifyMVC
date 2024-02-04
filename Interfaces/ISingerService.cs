@@ -9,4 +9,5 @@ public interface ISingerService
     Task<Singer?> GetSingerByIdAsync(int id);
     Task<Singer> CreateSingerAsync(CreateSingerRequest createSingerRequest);
     Task<bool> RemoveSingerAsync(int id);
+    Task<Singer?> UpdateSingerAsync(UpdateSingerRequest updateSingerRequest, int id);
 }
