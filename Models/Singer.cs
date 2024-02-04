@@ -1,14 +1,9 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace SpotifyMVC.Models;
 
-public class Singer
+public class Singer : Auditable
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  
-    public int SingerId { get; set; }
     public string Name { get; set; }
     public DateTime BirthDate { get; set; }
     

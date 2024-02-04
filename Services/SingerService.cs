@@ -24,7 +24,7 @@ public class SingerService : ISingerService
     {
         return await _context.Singers
             .Include(s => s.Albums) 
-            .FirstOrDefaultAsync(s => s.SingerId == id);
+            .FirstOrDefaultAsync(s => s.Id == id);
     }
 
     public async Task<Singer> CreateSingerAsync(CreateSingerRequest createSingerRequest)
@@ -33,6 +33,8 @@ public class SingerService : ISingerService
         singer.Albums = new List<Album>();
         singer.Name = createSingerRequest.Name;
         singer.BirthDate = createSingerRequest.BirthDate;
+        singer.CreatedAt = DateTime.UtcNow;
+        singer.ModifiedAt = DateTime.UtcNow;
         _context.Singers.Add(singer);
         await _context.SaveChangesAsync();
         return singer;

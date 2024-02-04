@@ -27,13 +27,13 @@ public class SongService : ISongService
         return await _context.Songs
             .Include(s => s.Categories)
             .Include(s => s.Album)
-            .FirstOrDefaultAsync(s => s.SongId == id);
+            .FirstOrDefaultAsync(s => s.Id == id);
     }
 
     public async Task<Song> CreateSongAsync(CreateSongRequest createSongRequest)
     {
         Song song = new Song();
-        Album? album = await _context.Albums.Where(a => a.AlbumId == createSongRequest.AlbumId).FirstOrDefaultAsync();
+        Album? album = await _context.Albums.Where(a => a.Id == createSongRequest.AlbumId).FirstOrDefaultAsync();
 
         if (album == null)
         {
@@ -45,6 +45,8 @@ public class SongService : ISongService
         song.Title = createSongRequest.Title;
         song.DurationInSeconds = createSongRequest.DurationInSeconds;
         song.Categories = new List<Category>();
+        song.CreatedAt = DateTime.UtcNow;
+        song.ModifiedAt = DateTime.UtcNow;
         _context.Songs.Add(song);
         await _context.SaveChangesAsync();
         return song;

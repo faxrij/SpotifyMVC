@@ -40,7 +40,7 @@ public class AlbumController : ControllerBase
     public async Task<ActionResult<Album>> CreateAlbum(CreateAlbumRequest createAlbumRequest)
     {
         var createdAlbum = await _albumService.CreateAlbumAsync(createAlbumRequest);
-        return CreatedAtAction(nameof(GetAlbum), new { id = createdAlbum.AlbumId }, createdAlbum);
+        return CreatedAtAction(nameof(GetAlbum), new { id = createdAlbum.Id }, createdAlbum);
     }
 
     [HttpDelete("{id}")]

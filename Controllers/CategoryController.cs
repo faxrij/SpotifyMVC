@@ -40,7 +40,7 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<Category>> CreateCategory(CreateCategoryRequest createCategoryRequest)
     {
         var createdCategory = await _categoryService.CreateCategoryAsync(createCategoryRequest);
-        return CreatedAtAction(nameof(GetCategory), new { id = createdCategory.CategoryId }, createdCategory);
+        return CreatedAtAction(nameof(GetCategory), new { id = createdCategory.Id }, createdCategory);
     }
     
     [HttpDelete("{id}")]

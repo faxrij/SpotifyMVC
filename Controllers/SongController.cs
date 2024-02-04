@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SpotifyMVC.DTOs.Request;
 using SpotifyMVC.Interfaces;
-using SpotifyMVC.Models;
 
 namespace SpotifyMVC.Controllers;
 
@@ -56,7 +55,7 @@ public class SongController : ControllerBase
         try
         {
             var createdSong = await _songService.CreateSongAsync(createSongRequest);
-            return CreatedAtAction(nameof(GetSongById), new { id = createdSong.SongId }, createdSong);
+            return CreatedAtAction(nameof(GetSongById), new { id = createdSong.Id }, createdSong);
         }
         catch (Exception ex)
         {

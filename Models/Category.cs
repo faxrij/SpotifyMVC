@@ -1,14 +1,9 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace SpotifyMVC.Models;
 
-public class Category
+public class Category : Auditable
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  
-    public int CategoryId { get; set; }
     public string Name { get; set; }
     
     [JsonIgnore]

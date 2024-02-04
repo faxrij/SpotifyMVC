@@ -26,14 +26,14 @@ public class CategoryService : ICategoryService
         return await _context.Categories. 
             Include(c => c.ParentCategory)
             .Include(c => c.Songs)
-            .FirstOrDefaultAsync(c => c.CategoryId == id);
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<Category> CreateCategoryAsync(CreateCategoryRequest createCategoryRequest)
     {
         Category category = new Category();
         var parentCategory = await _context.Categories
-            .FirstOrDefaultAsync(c => c.CategoryId == createCategoryRequest.ParentCategoryId);
+            .FirstOrDefaultAsync(c => c.Id == createCategoryRequest.ParentCategoryId);
         
         if (parentCategory == null)
         {
@@ -43,7 +43,8 @@ public class CategoryService : ICategoryService
         category.isParentCategory = false;
         category.Songs = new List<Song>();
         category.Name = createCategoryRequest.Name;
-        
+        category.CreatedAt = DateTime.UtcNow;
+        category.ModifiedAt = DateTime.UtcNow;
         _context.Categories.Add(category);
         await _context.SaveChangesAsync();
         return category;

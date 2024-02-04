@@ -40,7 +40,7 @@ public class SingerController : ControllerBase
     public async Task<ActionResult<Singer>> CreateSinger(CreateSingerRequest createSingerRequest)
     {
         var createdSinger = await _singerService.CreateSingerAsync(createSingerRequest);
-        return CreatedAtAction(nameof(GetSinger), new { id = createdSinger.SingerId }, createdSinger);
+        return CreatedAtAction(nameof(GetSinger), new { id = createdSinger.Id }, createdSinger);
     }
 
     [HttpDelete("{id}")]

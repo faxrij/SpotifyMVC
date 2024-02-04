@@ -24,7 +24,7 @@ public class AlbumService : IAlbumService
     {
         return await _context.Albums
             .Include(a => a.Songs)
-            .FirstOrDefaultAsync(a => a.AlbumId == id);
+            .FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<Album> CreateAlbumAsync(CreateAlbumRequest createAlbumRequest)
@@ -33,7 +33,8 @@ public class AlbumService : IAlbumService
         album.Songs = new List<Song>();
         album.ReleaseYear = createAlbumRequest.ReleaseYear;
         album.Title = createAlbumRequest.Title;
-        
+        album.CreatedAt = DateTime.UtcNow;
+        album.ModifiedAt = DateTime.UtcNow;
         _context.Albums.Add(album);
         await _context.SaveChangesAsync();
         return album;
