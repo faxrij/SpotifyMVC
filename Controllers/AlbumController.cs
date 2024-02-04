@@ -1,0 +1,58 @@
+using Microsoft.AspNetCore.Mvc;
+using SpotifyMVC.DTOs.Request;
+using SpotifyMVC.Interfaces;
+using SpotifyMVC.Models;
+
+namespace SpotifyMVC.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AlbumController : ControllerBase
+{
+    private readonly IAlbumService _albumService;
+
+    public AlbumController(IAlbumService albumService)
+    {
+        _albumService = albumService;
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<List<Album>>> GetAlbums()
+    {
+        var albums = await _albumService.GetAllAlbumsAsync();
+        return Ok(albums);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Album>> GetAlbum(int id)
+    {
+        var album = await _albumService.GetAlbumByIdAsync(id);
+
+        if (album == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(album);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Album>> CreateAlbum(CreateAlbumRequest createAlbumRequest)
+    {
+        var createdAlbum = await _albumService.CreateAlbumAsync(createAlbumRequest);
+        return CreatedAtAction(nameof(GetAlbum), new { id = createdAlbum.AlbumId }, createdAlbum);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAlbum(int id)
+    {
+        var result = await _albumService.RemoveAlbumAsync(id);
+
+        if (!result)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+}
